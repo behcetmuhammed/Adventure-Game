@@ -1,24 +1,34 @@
 package AdventurGame;
 
-public class Armur {
+public class Armor {
     private String name;
     private int id;
     private int block;
     private int price;
 
-    public Armur(String name, int id, int block, int price) {
+    public Armor(String name, int id, int block, int price) {
         this.name = name;
         this.id = id;
         this.block = block;
         this.price = price;
     }
 
-    public static Armur[] armurs(){
-        Armur[] armursList = new Armur[3];
-        armursList[0] = new Armur("Hafif", 1 ,1 , 15);
-        armursList[1] = new Armur("Orta", 2 ,3 , 25);
-        armursList[2] = new Armur("Ağır", 3 ,5 , 40);
-        return armursList;
+    public static Armor[] armors() {
+        Armor[] armorsList = new Armor[3];
+        armorsList[0] = new Armor("Hafif", 1, 1, 15);
+        armorsList[1] = new Armor("Orta", 2, 3, 25);
+        armorsList[2] = new Armor("Ağır", 3, 5, 40);
+        return armorsList;
+    }
+
+
+    public static Armor getArmorObjById(int id) {
+        for (Armor a : Armor.armors()) {
+            if (a.getId() == id) {
+                return a;
+            }
+        }
+        return null;
     }
 
     public String getName() {

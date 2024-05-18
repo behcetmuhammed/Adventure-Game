@@ -1,8 +1,9 @@
 package AdventurGame;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.util.Scanner;
 
-public class Player{
+public class Player {
     private String name;
     private String charName;
     private int damage; //hasar
@@ -14,6 +15,7 @@ public class Player{
         this.name = name;
         this.inventory = new Inventory();
     }
+
     Scanner input = new Scanner(System.in);
 
     public int getMoney() {
@@ -30,6 +32,10 @@ public class Player{
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public int getTotalDamage(){
+        return damage + this.getInventory().getWeapon().getDamage();
     }
 
     public int getDamage() {
@@ -65,23 +71,22 @@ public class Player{
     }
 
 
-
-
-    public void selectChar(){
+    public void selectChar() {
         System.out.println("Ama İlk Önce Karakterini Seçme Zamanı!");
         GameChar[] charList = {new Samurai(), new Archer(), new Knight()};
-        System.out.println("****************************");
+        System.out.println("---------------------------------------------------------------------------------------------\n");
         System.out.println("Karakterler: ");
         for (GameChar gameChar : charList) {
-            System.out.println("İd: " + gameChar.getId() +
+            System.out.println("ID: " + gameChar.getId() +
                     ", Karakter: " + gameChar.getName() +
                     ", Hasar: " + gameChar.getDamage() +
+                    ", Sağlık: " + gameChar.getHealth() +
                     ", Para: " + gameChar.getMoney());
         }
-        System.out.println("****************************");
+        System.out.println("---------------------------------------------------------------------------------------------");
         System.out.print("Lütfen Bir Karakter Seçin: ");
         int selectChar = input.nextInt();
-        switch (selectChar){
+        switch (selectChar) {
             case 1:
                 initPlayer(new Samurai());
                 break;
@@ -99,9 +104,19 @@ public class Player{
     }
 
 
+    public void printInfoPlayer() {
+        System.out.println();
+        System.out.println("###### DEVAM! DURMAK YOK. GÜNCEL VERİLERİNE BİR GÖZ AT VE KALDIĞIN YERDEN DEVAM ET  ######");
+        System.out.println("\t [ Silahınız: " + this.getInventory().getWeapon().getName() +
+                ", Zırhınız: " + this.getInventory().getArmor().getName() +
+                ", Zırh Gücü: " + this.getInventory().getArmor().getBlock() +
+                ", Hasarınız: " + this.getTotalDamage() +
+                ", Sağlığınız: " + this.getHealth() +
+                ", Paranız: " + this.getMoney() + " ]");
+    }
 
 
-    public void initPlayer(GameChar gameChar){
+    public void initPlayer(GameChar gameChar) {
         this.setDamage(gameChar.getDamage());
         this.setMoney(gameChar.getMoney());
         this.setHealth(gameChar.getHealth());

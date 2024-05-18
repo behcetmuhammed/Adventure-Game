@@ -41,26 +41,52 @@ public class Game {
         Location location = null;
 
         while (true) {
+            player.printInfoPlayer();
             System.out.println("---------------------------------------------------------------------------------------------\n\n######## Bölgeler ########");
             System.out.println();
-            System.out.println("1- Güvenli Ev  -->  Güvenlli Ev'de Duşman Yoktur ve Canınızı Yenilenir");
-            System.out.println("2- Mağaza      -->  Mağaza'dan Silah ve Zırh Satın Alabilirsin");
+            System.out.println("1- Güvenli Ev     -->  Güvenlli Ev'de Duşman Yoktur ve Canınızı Yenilenir");
+            System.out.println("2- Mağaza         -->  Mağaza'dan Silah ve Zırh Satın Alabilirsin");
+            System.out.println();
+            System.out.println("3- Mağara         -->  <YEMEK> Kazanmak İçin Mağaraya Gir. Dikkatli Ol! Mağarada Vahşi Zombiler Dolaşıyor");
+            System.out.println("4- Orman          -->  <ODUN> Kazanmak İçin Orman'a Gir. Dikkatli Ol! Orman'da Kan Emici Vampirler Yaşıyor");
+            System.out.println("5- Nehir          -->  <SU> Kazanmak İçin Nehir'e Gir. Dikkatli Ol! Nehir'de Aç Ayılar Dolaşıyor");
+            System.out.println();
+            System.out.println("0- Çıkış Yap      -->  Oyunu Sonlandır.");
             System.out.println("---------------------------------------------------------------------------------------------");
             System.out.print("Lütfen Gitmek İstediğiniz Bölgeyi Seçin: ");
             int selectLoc = input.nextInt();
             switch (selectLoc) {
+                case 0:
+                    location = null;
+                    break;
                 case 1:
                     location = new SafeHouse(player);
                     break;
                 case 2:
                     location = new Toolstrore(player);
                     break;
+                case 3:
+                    location = new Cave(player);
+                    break;
+                case 4:
+                    location = new Forest(player);
+                    break;
+                case 5:
+                    location = new River(player);
+                    break;
                 default:
                     System.out.println("Yanlış Seçim. Varsayılan Olarak Güvenli Ev'e Gidiyorsunuz!");
                     location = new SafeHouse(player); //daha sonra burayı düzelt
             }
+
+            if(location == null){
+                System.out.println("Oyun Sonlandırılıyor...");
+                break;
+            }
+
             if(!location.onLocation()){
                 System.out.println("Game Over!");
+                break;
             }
         }
 
