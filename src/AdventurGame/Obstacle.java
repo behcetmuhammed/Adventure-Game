@@ -1,5 +1,5 @@
 package AdventurGame;
 
-//Engel, Engeller
+//Engel, Engeller, CANAVARLAR
 public class Obstacle {
 }
