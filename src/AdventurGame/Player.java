@@ -1,6 +1,5 @@
 package AdventurGame;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.util.Scanner;
 
 public class Player {
@@ -8,6 +7,7 @@ public class Player {
     private String charName;
     private int damage; //hasar
     private int health; //sağlık
+    private int orjinalHealth;
     private int money; //para
     private Inventory inventory;
 
@@ -31,6 +31,9 @@ public class Player {
     }
 
     public void setHealth(int health) {
+        if(health < 0){
+            health = 0;
+        }
         this.health = health;
     }
 
@@ -64,6 +67,14 @@ public class Player {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public int getOrjinalHealth() {
+        return orjinalHealth;
+    }
+
+    public void setOrjinalHealth(int orjinalHealth) {
+        this.orjinalHealth = orjinalHealth;
     }
 
     public void setInventory(Inventory inventory) {
@@ -120,6 +131,7 @@ public class Player {
         this.setDamage(gameChar.getDamage());
         this.setMoney(gameChar.getMoney());
         this.setHealth(gameChar.getHealth());
+        this.setOrjinalHealth(gameChar.getHealth());
         this.setCharName(gameChar.getName());
     }
 

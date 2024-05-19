@@ -41,27 +41,56 @@ public abstract class BattleLoc extends Location {
 
     public boolean combat(int obstacleNum) {
         for (int i = 1; i <= obstacleNum; i++) {
-            this.getObstacle().setHealth(this.getObstacle().getOrjinalHealth());
-            playerStatistics();
-            ObstacleStatistics(i);
+            this.getObstacle().setHealth(this.getObstacle().getOrjinalHealth()); //Sonraki canavarın canının terkardan fulluyor
+
+            playerStatistics(); //oyuncu değerleri
+            ObstacleStatistics(i); //canavar değerleri
+
+            Random rand = new Random();
+            boolean isPlayerTurn = rand.nextBoolean(); //Kimin ilk vuracağını belirleyen variable;
+
             while (this.getPlayer().getHealth() > 0 && this.getObstacle().getHealth() > 0) {
+                //savaşın başladığı blok
                 System.out.println("-------------------");
-                System.out.print("<V>ur veya <K>aç: \n");
+                System.out.print("<V>ur veya <K>aç: ");
+                System.out.println();
+
                 String selectCombat = input.next();
                 selectCombat = selectCombat.toUpperCase();
+
+                //Günceleme
                 if (selectCombat.equals("V")) {
-                    System.out.println("[[[[[[ Siz Vurdunuz! ]]]]]]");
-                    this.getObstacle().setHealth(this.obstacle.getHealth() - this.getPlayer().getTotalDamage());
-                    afterHit();
-                    if (this.getObstacle().getHealth() > 0) {
-                        System.out.println();
-                        System.out.println("[[[[[[ Canavar Size Vurdu! ]]]]]]");
+                    if (isPlayerTurn) {
+                        System.out.println("[[[[[[ Siz Vurdunuz! ]]]]]]");
+                        this.getObstacle().setHealth(this.obstacle.getHealth() - this.getPlayer().getTotalDamage());
+                        afterHit();
+
+                        if (this.getObstacle().getHealth() > 0) {
+                            System.out.println();
+                            System.out.println("[[[[[[ Canavar Size Vurdu! ]]]]]]");
+                            int obstacleDamage = this.getObstacle().getDamage() - this.getPlayer().getInventory().getArmor().getBlock();
+                            if (obstacleDamage < 0) {
+                                obstacleDamage = 0;
+                            }
+                            this.getPlayer().setHealth(this.getPlayer().getHealth() - obstacleDamage);
+                            afterHit();
+                        }
+                    } else {
+                        System.out.println("[[[[[[ Canavar Size Vurdunuz! ]]]]]]");
                         int obstacleDamage = this.getObstacle().getDamage() - this.getPlayer().getInventory().getArmor().getBlock();
                         if (obstacleDamage < 0) {
                             obstacleDamage = 0;
                         }
                         this.getPlayer().setHealth(this.getPlayer().getHealth() - obstacleDamage);
+
                         afterHit();
+
+                        if (this.getObstacle().getHealth() > 0) {
+                            System.out.println();
+                            System.out.println("[[[[[[ Siz Vurdunuz! ]]]]]]");
+                            this.getObstacle().setHealth(this.obstacle.getHealth() - this.getPlayer().getTotalDamage());
+                            afterHit();
+                        }
                     }
                 } else {
                     return false;

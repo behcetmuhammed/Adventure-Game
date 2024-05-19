@@ -5,8 +5,6 @@ import java.util.Scanner;
 public class Game {
 
 
-
-
     public static String addSpaces(String message) {
         StringBuilder spacedMessage = new StringBuilder();
         for (int i = 0; i < message.length(); i++) {
@@ -23,17 +21,15 @@ public class Game {
     }
 
 
-
-
     public void start() {
         Scanner input = new Scanner(System.in);
         String welcomeMessage = "------------------------\nMACERA OYUNUNA HOŞGELDİN\n------------------------";
         System.out.println(addSpaces(welcomeMessage));
 
-        //System.out.print("Oyuncu Adını Gir: ");
-        //String playerGame = input.next();
+        System.out.print("Oyuncu Adını Gir: ");
+        String playerGame = input.next();
 
-        Player player = new Player("Emir");
+        Player player = new Player(playerGame);
         System.out.println("\n" + player.getName() + "! Çok Dikkatli Olman Gerek! Hadi Git ve Onlara Kim Olduğunu Göster!");
         //Player player = new Player(playerName);
         player.selectChar();
@@ -79,12 +75,12 @@ public class Game {
                     location = new SafeHouse(player); //daha sonra burayı düzelt
             }
 
-            if(location == null){
+            if (location == null) {
                 System.out.println("Oyun Sonlandırılıyor...");
                 break;
             }
 
-            if(!location.onLocation()){
+            if (!location.onLocation()) {
                 System.out.println("Game Over!");
                 break;
             }
