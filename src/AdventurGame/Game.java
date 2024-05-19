@@ -62,17 +62,31 @@ public class Game {
                     location = new Toolstrore(player);
                     break;
                 case 3:
-                    location = new Cave(player);
-                    break;
+                    if (!player.getInventory().hasAward("Yemek")) {
+                        location = new Cave(player);
+                        break;
+                    }
+                    System.out.println("Daha Önce Buradaki Duşmanları Yendin. Tekrar Giremezsin!");
+                    continue;
                 case 4:
-                    location = new Forest(player);
-                    break;
+                    if (!player.getInventory().hasAward("Su")) {
+                        location = new Forest(player);
+                        break;
+                    }
+                    System.out.println("Daha Önce Buradaki Duşmanları Yendin. Tekrar Giremezsin!");
+                    continue;
+
                 case 5:
-                    location = new River(player);
-                    break;
+                    if (!player.getInventory().hasAward("Odun")) {
+                        location = new River(player);
+                        break;
+                    }
+                    System.out.println("Daha Önce Buradaki Duşmanları Yendin. Tekrar Giremezsin!");
+                    continue;
                 default:
                     System.out.println("Yanlış Seçim. Varsayılan Olarak Güvenli Ev'e Gidiyorsunuz!");
                     location = new SafeHouse(player); //daha sonra burayı düzelt
+                    //Continue ekle ??
             }
 
             if (location == null) {
@@ -81,9 +95,12 @@ public class Game {
             }
 
             if (!location.onLocation()) {
-                System.out.println("Game Over!");
+                if (player.getHealth() <= 0) {
+                    System.out.println("Game Over!");
+                }
                 break;
             }
+
         }
 
     }

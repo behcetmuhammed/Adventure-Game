@@ -1,5 +1,6 @@
 package AdventurGame;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -8,6 +9,7 @@ public abstract class BattleLoc extends Location {
     private Obstacle obstacle;
     private String award;
     private int maxObstacle;
+
 
     public BattleLoc(String name, Player player, Obstacle obstacle, String award, int maxObstacle) {
         super(name, player);
@@ -18,6 +20,7 @@ public abstract class BattleLoc extends Location {
 
     @Override
     public boolean onLocation() {
+
         int obstacleNum = this.randomObstacleNumber();
 
         System.out.println("Şu An Buradasınız: " + this.getName());
@@ -101,6 +104,14 @@ public abstract class BattleLoc extends Location {
                 System.out.println(this.getObstacle().getAward() + " Para Kazandınız!");
                 this.getPlayer().setMoney(this.getPlayer().getMoney() + this.getObstacle().getAward());
                 System.out.println("Güncel Paranız: " + this.getPlayer().getMoney());
+                System.out.println("Kazandığın Ödül: " + this.award);
+
+                if (!getPlayer().getInventory().hasAward(this.award)) {
+                    getPlayer().getInventory().addAwards(this.award);
+                }
+
+                System.out.println("Güncel Ödül Listesiniz: " +getPlayer().getInventory().getAwards());
+
             } else {
                 return false;
             }
@@ -167,4 +178,6 @@ public abstract class BattleLoc extends Location {
     public void setAward(String award) {
         this.award = award;
     }
+
+
 }
