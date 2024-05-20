@@ -45,6 +45,7 @@ public abstract class BattleLoc extends Location {
     }
 
     Random rand = new Random();
+
     public boolean combat(int obstacleNum) {
         for (int i = 1; i <= obstacleNum; i++) {
 
@@ -135,31 +136,34 @@ public abstract class BattleLoc extends Location {
                     46-100 gelirse: Ödül Yok
                                 -- Hiç birşey kazanamama ihtimali : 45%
                  */
-            int rewardRate = rand.nextInt(1, 101); //1 ile 101 arasında rasgtele sayı üretir
+            //Game game = new Game();
+            if (isEnteredMiningMap) { //Daha önce Maden Haritasına girmediysen
 
-            Toolstrore randomReward = new Toolstrore(player);
-            System.out.println("Rastgele Bir Hediye Seçiliyor... [Silah : %15, Zırh : %15, Para : %25, Ödül Yol : %45]");
-            if (rewardRate <= 15) {
-                randomReward.randomGiftWeapon();
-            } else if (rewardRate <= 30) {
-                randomReward.randomGiftArmor();
-            } else if (rewardRate <= 45) {
+                int rewardRate = rand.nextInt(1, 101); //1 ile 101 arasında rasgtele sayı üretir
 
-                int randomMoney = rand.nextInt(100); // 0 ile 99 arasında bir sayı üretir
+                Toolstrore randomReward = new Toolstrore(player);
+                System.out.println("Rastgele Bir Hediye Seçiliyor... [Silah : %15, Zırh : %15, Para : %25, Ödül Yol : %45]");
+                if (rewardRate <= 15) {
+                    randomReward.randomGiftWeapon();
+                } else if (rewardRate <= 30) {
+                    randomReward.randomGiftArmor();
+                } else if (rewardRate <= 45) {
 
-                if (randomMoney < 50) { //%50 ihtimal => 1 Para
-                    System.out.println("Tebrikler ! 1 Para Kazandınız !");
-                } else if (randomMoney < 80) { // %30 ihtimal => 5 Para
-                    System.out.println("Tebrikler ! 5 Para Kazandınız !");
-                } else { // %20 ihtimal => 10 Para
-                    System.out.println("Tebrikler ! 10 Para Kazandınız !");
+                    int randomMoney = rand.nextInt(100); // 0 ile 99 arasında bir sayı üretir
+
+                    if (randomMoney < 50) { //%50 ihtimal => 1 Para
+                        System.out.println("Tebrikler ! 1 Para Kazandınız !");
+                    } else if (randomMoney < 80) { // %30 ihtimal => 5 Para
+                        System.out.println("Tebrikler ! 5 Para Kazandınız !");
+                    } else { // %20 ihtimal => 10 Para
+                        System.out.println("Tebrikler ! 10 Para Kazandınız !");
+                    }
+
+                } else if (rewardRate <= 101) {
+                    System.out.println("Maalesef ! Hiç Bir Ödül Kazanamadınız !");
                 }
 
-            } else if (rewardRate <= 101) {
-                System.out.println("Maalesef ! Hiç Bir Ödül Kazanamadınız !");
             }
-
-
             /////***********///////
 
 
@@ -168,6 +172,14 @@ public abstract class BattleLoc extends Location {
 
         }
         return true;
+    }
+
+
+    //Maden haritasındaki ödül bloğuna girip girmemeye karar veren metod
+    private static boolean isEnteredMiningMap = false;
+
+    public static void setEnteredMiningMap(boolean value) {
+        isEnteredMiningMap = value;   //gameClass'dan TRUE/FALSE geliyor
     }
 
 

@@ -3,7 +3,7 @@ package AdventurGame;
 import java.util.Scanner;
 
 public class Game {
-
+    private boolean madenHaritasinaGirildiMi = false; //??
 
     public static String addSpaces(String message) {
         StringBuilder spacedMessage = new StringBuilder();
@@ -34,12 +34,12 @@ public class Game {
         player.selectChar();
 
         Location location = null;
-
+        //BattleLoc battleLoc = new BattleLoc("test", 0, 0, 0, 0);
         while (true) {
             player.printInfoPlayer();
             System.out.println("---------------------------------------------------------------------------------------------\n\n######## Bölgeler ########");
             System.out.println();
-            System.out.println("1- Güvenli Ev     -->  Güvenlli Ev'de Duşman Yoktur ve Canınızı Yenilenir");
+            System.out.println("1- Güvenli Ev     -->  Güvenlli Ev'de Duşman Yoktur ve Canınız Yenilenir");
             System.out.println("2- Mağaza         -->  Mağaza'dan Silah ve Zırh Satın Alabilirsin");
             System.out.println();
             System.out.println("3- Mağara         -->  <YEMEK> Kazanmak İçin Mağaraya Gir. Dikkatli Ol! Mağarada Vahşi Zombiler Dolaşıyor");
@@ -64,6 +64,7 @@ public class Game {
                 case 3:
                     if (!player.getInventory().hasAward("Yemek")) { //Yemek: burayı oto yap.
                         location = new Cave(player);
+                        BattleLoc.setEnteredMiningMap(false); //Maden haritasındaki rastgele ödül bloğuna girme (BattleLoc)
                         break;
                     }
                     System.out.println("Daha Önce Buradaki Duşmanları Yendin. Tekrar Giremezsin!");
@@ -71,6 +72,7 @@ public class Game {
                 case 4:
                     if (!player.getInventory().hasAward("Su")) {
                         location = new Forest(player);
+                        BattleLoc.setEnteredMiningMap(false); //Maden haritasındaki rastgele ödül bloğuna girme (BattleLoc)
                         break;
                     }
                     System.out.println("Daha Önce Buradaki Duşmanları Yendin. Tekrar Giremezsin!");
@@ -79,18 +81,21 @@ public class Game {
                 case 5:
                     if (!player.getInventory().hasAward("Odun")) {
                         location = new River(player);
+                        BattleLoc.setEnteredMiningMap(false); //Maden haritasındaki rastgele ödül bloğuna girme (BattleLoc)
                         break;
                     }
                     System.out.println("Daha Önce Buradaki Duşmanları Yendin. Tekrar Giremezsin!");
                     continue;
 
                 case 6:
-                    if (!player.getInventory().hasAward("Süpriz Kutu!")) { //Bura düzenleme isteyebilir
+                    if (!player.getInventory().hasAward("Süpriz Kutu!")) { //Burası düzenleme isteyebilir...
                         location = new Mine(player);
+                        BattleLoc.setEnteredMiningMap(true);  //Maden haritasındaki rastgele ödül bloğuna gir (BattleLoc)
                         break;
                     }
                     System.out.println("Daha Önce Buradaki Duşmanları Yendin. Tekrar Giremezsin!");
                     continue;
+
 
                 default:
                     System.out.println("Yanlış Seçim. Varsayılan Olarak Güvenli Ev'e Gidiyorsunuz!");
@@ -109,8 +114,6 @@ public class Game {
                 }
                 break;
             }
-
         }
-
     }
 }
