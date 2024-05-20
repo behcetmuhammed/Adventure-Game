@@ -1,3 +1,5 @@
+//BattleLoc
+
 package AdventurGame;
 
 import java.util.List;
@@ -31,7 +33,7 @@ public abstract class BattleLoc extends Location {
         selecetCase = selecetCase.toUpperCase();
         if (selecetCase.equals("S") && combat(obstacleNum)) {
             //Savaşın başladığı blok
-            System.out.println(this.getName() + " Tüm Duşmanları Yendiniz!");
+            System.out.println("< " + this.getName() + " > : Buradaki Tüm Duşmanları Yendiniz!");
             return true;
         }
         if (this.getPlayer().getHealth() <= 0) {
@@ -42,14 +44,16 @@ public abstract class BattleLoc extends Location {
         return true;
     }
 
+    Random rand = new Random();
     public boolean combat(int obstacleNum) {
         for (int i = 1; i <= obstacleNum; i++) {
-            this.getObstacle().setHealth(this.getObstacle().getOrjinalHealth()); //Sonraki canavarın canının terkardan fulluyor
+
+            this.getObstacle().setHealth(this.getObstacle().getOrjinalHealth()); //Sonraki canavarın canının tekrardan fulluyor
 
             playerStatistics(); //oyuncu değerleri
             ObstacleStatistics(i); //canavar değerleri
 
-            Random rand = new Random();
+
             boolean isPlayerTurn = rand.nextBoolean(); //Kimin ilk vuracağını belirleyen variable;
 
             while (this.getPlayer().getHealth() > 0 && this.getObstacle().getHealth() > 0) {
@@ -99,22 +103,69 @@ public abstract class BattleLoc extends Location {
                     return false;
                 }
             }
-            if (this.getObstacle().getHealth() < this.getPlayer().getHealth()) {
-                System.out.println("Duşmanı Yendiniz!");
-                System.out.println(this.getObstacle().getAward() + " Para Kazandınız!");
-                this.getPlayer().setMoney(this.getPlayer().getMoney() + this.getObstacle().getAward());
-                System.out.println("Güncel Paranız: " + this.getPlayer().getMoney());
-                System.out.println("Kazandığın Ödül: " + this.award);
+        }
 
-                if (!getPlayer().getInventory().hasAward(this.award)) {
-                    getPlayer().getInventory().addAwards(this.award);
+        if (this.getObstacle().getHealth() < this.getPlayer().getHealth()) {
+            System.out.println("Duşmanı Yendiniz!");
+            System.out.println(this.getObstacle().getAward() + " Para Kazandınız!");
+            this.getPlayer().setMoney(this.getPlayer().getMoney() + this.getObstacle().getAward());
+            System.out.println("Güncel Paranız: " + this.getPlayer().getMoney());
+            System.out.println("Kazandığın Ödül: " + this.award);
+
+            if (!getPlayer().getInventory().hasAward(this.award)) {
+                getPlayer().getInventory().addAwards(this.award);
+            }
+
+            System.out.println("Güncel Ödül Listesiniz: " + getPlayer().getInventory().getAwards());
+
+            /////***********///////
+                /*
+                    1-15 gelirse: Silah Kazanma İhtimali : 15%
+                                -- Tüfek Kazanma İhtimali : 20%
+                                -- Kılıç Kazanma İhtimali : 30%
+                                -- Tabanca Kazanma İhtimali : 50%
+                    16-30 gelirse: Zırh Kazanma İhtimali : 15%
+                                -- Ağır Zırh Kazanma İhtimali : 20%
+                                -- Orta Zırh Kazanma İhtimali : 30%
+                                -- Hafif Zırh Kazanma İhtimali : 50%
+                    31-45 gelirse: Para Kazanma İhtimali : 25%
+                                -- 10 Para Kazanma İhtimali: 20%
+                                -- 5 Para Kazanma İhtimali: 30%
+                                -- 1 Para Kazanma İhtimali: 50%
+                    46-100 gelirse: Ödül Yok
+                                -- Hiç birşey kazanamama ihtimali : 45%
+                 */
+            int rewardRate = rand.nextInt(1, 101); //1 ile 101 arasında rasgtele sayı üretir
+
+            Toolstrore randomReward = new Toolstrore(player);
+            System.out.println("Rastgele Bir Hediye Seçiliyor... [Silah : %15, Zırh : %15, Para : %25, Ödül Yol : %45]");
+            if (rewardRate <= 15) {
+                randomReward.randomGiftWeapon();
+            } else if (rewardRate <= 30) {
+                randomReward.randomGiftArmor();
+            } else if (rewardRate <= 45) {
+
+                int randomMoney = rand.nextInt(100); // 0 ile 99 arasında bir sayı üretir
+
+                if (randomMoney < 50) { //%50 ihtimal => 1 Para
+                    System.out.println("Tebrikler ! 1 Para Kazandınız !");
+                } else if (randomMoney < 80) { // %30 ihtimal => 5 Para
+                    System.out.println("Tebrikler ! 5 Para Kazandınız !");
+                } else { // %20 ihtimal => 10 Para
+                    System.out.println("Tebrikler ! 10 Para Kazandınız !");
                 }
 
-                System.out.println("Güncel Ödül Listesiniz: " +getPlayer().getInventory().getAwards());
-
-            } else {
-                return false;
+            } else if (rewardRate <= 101) {
+                System.out.println("Maalesef ! Hiç Bir Ödül Kazanamadınız !");
             }
+
+
+            /////***********///////
+
+
+        } else {
+            return false;
+
         }
         return true;
     }

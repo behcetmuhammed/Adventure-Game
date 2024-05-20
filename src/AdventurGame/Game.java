@@ -31,7 +31,6 @@ public class Game {
 
         Player player = new Player(playerGame);
         System.out.println("\n" + player.getName() + "! Çok Dikkatli Olman Gerek! Hadi Git ve Onlara Kim Olduğunu Göster!");
-        //Player player = new Player(playerName);
         player.selectChar();
 
         Location location = null;
@@ -46,6 +45,7 @@ public class Game {
             System.out.println("3- Mağara         -->  <YEMEK> Kazanmak İçin Mağaraya Gir. Dikkatli Ol! Mağarada Vahşi Zombiler Dolaşıyor");
             System.out.println("4- Orman          -->  <ODUN> Kazanmak İçin Orman'a Gir. Dikkatli Ol! Orman'da Kan Emici Vampirler Yaşıyor");
             System.out.println("5- Nehir          -->  <SU> Kazanmak İçin Nehir'e Gir. Dikkatli Ol! Nehir'de Aç Ayılar Dolaşıyor");
+            System.out.println("6- Maden          -->  <Rastgele: PARA/SİLAH/ZIRH> Kazanmak İçin Nehir'e Gir. Dikkatli Ol! Nehir'de Aç Ayılar Dolaşıyor");
             System.out.println();
             System.out.println("0- Çıkış Yap      -->  Oyunu Sonlandır.");
             System.out.println("---------------------------------------------------------------------------------------------");
@@ -62,7 +62,7 @@ public class Game {
                     location = new Toolstrore(player);
                     break;
                 case 3:
-                    if (!player.getInventory().hasAward("Yemek")) {
+                    if (!player.getInventory().hasAward("Yemek")) { //Yemek: burayı oto yap.
                         location = new Cave(player);
                         break;
                     }
@@ -83,10 +83,19 @@ public class Game {
                     }
                     System.out.println("Daha Önce Buradaki Duşmanları Yendin. Tekrar Giremezsin!");
                     continue;
+
+                case 6:
+                    if (!player.getInventory().hasAward("Süpriz Kutu!")) { //Bura düzenleme isteyebilir
+                        location = new Mine(player);
+                        break;
+                    }
+                    System.out.println("Daha Önce Buradaki Duşmanları Yendin. Tekrar Giremezsin!");
+                    continue;
+
                 default:
                     System.out.println("Yanlış Seçim. Varsayılan Olarak Güvenli Ev'e Gidiyorsunuz!");
-                    location = new SafeHouse(player); //daha sonra burayı düzelt
-                    //Continue ekle ??
+                    location = new SafeHouse(player);
+                    //Eğer varsayılan olarak Güvenli Ev'e gitmek istemiyorsan "continue" ekle...
             }
 
             if (location == null) {

@@ -32,10 +32,7 @@ public class Inventory {
         this.armor = armor;
     }
 
-
-    //////////////////
-
-
+    //Ödül kontrol etme
     public boolean hasAward(String award) {
         return awards.contains(award);
     }

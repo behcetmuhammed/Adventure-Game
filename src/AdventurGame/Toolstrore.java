@@ -1,5 +1,7 @@
 package AdventurGame;
 
+import java.util.Random;
+
 //Alet deposu
 public class Toolstrore extends NormalLoc {
 
@@ -9,7 +11,7 @@ public class Toolstrore extends NormalLoc {
 
     @Override
     public boolean onLocation() {
-        System.out.println("####   Mağazaya Hoşgeldiniz!   ####");
+        System.out.println("####   MAĞAZAYA HOŞGELDİNİZ !   ####");
         boolean showMenu = true;
         while (showMenu) {
             System.out.println("1- Silah Satın Al");
@@ -113,5 +115,68 @@ public class Toolstrore extends NormalLoc {
             }
         }
     }
+
+
+    /////////*****************////////////
+
+
+    Random rand = new Random();
+
+    public void randomGiftWeapon() {   //random hediye silah
+        System.out.println("Rastgele Bir Silah Seçiliyor...");
+
+        int selectWeaponId = rand.nextInt(1, 101);
+        Weapon selectedWeapon;
+
+        if (selectWeaponId < 20) { //%20 ihtimal
+            System.out.println("Tebrikler! Ödül Olarak Tüfek Kazandınız!");
+            selectedWeapon = Weapon.getWeaponObjById(3);
+        } else if (selectWeaponId < 50) { //%30 ihtimal
+            System.out.println("Tebrikler! Ödül Olarak Kılıç Kazandınız!");
+            selectedWeapon = Weapon.getWeaponObjById(2);
+        } else { //%50 ihtimal
+            System.out.println("Tebrikler! Ödül Olarak Tabanca Kazandınız!");
+            selectedWeapon = Weapon.getWeaponObjById(1);
+        }
+
+
+        //Satın alma işlemi...
+        System.out.println("< " + selectedWeapon.getName() + " > Silahı Hediye Edildi !");
+
+        System.out.println("Önceki Silahınız: " + getPlayer().getInventory().getWeapon().getName());
+        this.getPlayer().getInventory().setWeapon(selectedWeapon);
+        System.out.println("Yeni Silahınız: " + getPlayer().getInventory().getWeapon().getName());
+    }
+
+
+    public void randomGiftArmor() {  // random hediye zırh
+        System.out.println("Rastgele Bir Zırh Seçiliyor...");
+
+        int selectArmorId = rand.nextInt(1, 101);
+        Armor selectedArmor;
+
+
+        if (selectArmorId < 20) { //%20 ihtimal
+            System.out.println("Tebrikler! Ödül Olarak Ağır Zırh Kazandınız!");
+            selectedArmor = Armor.getArmorObjById(3);
+        } else if (selectArmorId < 50) { //%30 ihtimal
+            System.out.println("Tebrikler! Ödül Olarak Orta Zırh Kazandınız!");
+            selectedArmor = Armor.getArmorObjById(2);
+        } else { //%50 ihtimal
+            System.out.println("Tebrikler! Ödül Olarak Hafif Zırh Kazandınız!");
+            selectedArmor = Armor.getArmorObjById(1);
+        }
+
+        System.out.println("< " + selectedArmor.getName() + " > Zırh Hediye Edildi !");
+
+        System.out.println("Önceki Zırhın: " + getPlayer().getInventory().getArmor().getName());
+        this.getPlayer().getInventory().setArmor(selectedArmor);
+        System.out.println("Yeni Zırhın: " + getPlayer().getInventory().getArmor().getName());
+
+    }
+
+
+    /////////*****************////////////
+
 
 }
